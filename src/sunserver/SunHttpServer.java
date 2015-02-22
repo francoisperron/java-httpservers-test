@@ -7,8 +7,11 @@ import yose.http.HttpRequest;
 import yose.http.HttpResponse;
 import yose.http.Server;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.InetSocketAddress;
+import java.util.stream.Collectors;
 
 public class SunHttpServer implements Server {
 
@@ -41,9 +44,20 @@ public class SunHttpServer implements Server {
 
     private HttpRequest buildRequest(HttpExchange exchange) {
         HttpRequest request = new HttpRequest();
+        request.method = exchange.getRequestMethod();
         request.query = exchange.getRequestURI().getRawQuery();
         request.path = exchange.getRequestURI().getPath();
+        request.body = readRequestBody(exchange);
         return request;
+    }
+
+    private static String readRequestBody(HttpExchange exchange) {
+        try {
+            BufferedReader br = new BufferedReader(new InputStreamReader((exchange.getRequestBody())));
+            return br.ready() ? br.lines().collect(Collectors.joining("\n")) : "";
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private void sendResponse(HttpExchange exchange, HttpResponse response) throws IOException {

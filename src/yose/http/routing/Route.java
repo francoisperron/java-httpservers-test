@@ -4,17 +4,19 @@ import yose.http.HttpRequest;
 
 public class Route {
 
-    public static Route withPathEqualTo(String path) {
-        return new Route(path);
+    private String method;
+    private String path;
+
+    public static Route route(String method, String path) {
+        return new Route(method, path);
     }
 
-    private String expected;
-
-    public Route(String path) {
-        this.expected = path;
+    public Route(String method, String path) {
+        this.method = method;
+        this.path = path;
     }
 
     public boolean matches(HttpRequest request) {
-        return request.path.equals( expected );
+        return request.method.equals(method) && request.path.equals(path);
     }
 }
