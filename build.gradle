@@ -1,0 +1,26 @@
+apply plugin: 'java'
+apply plugin: 'application'
+
+sourceCompatibility = 1.8
+version = '1.0'
+
+sourceSets {
+    main {
+        java {
+            srcDir 'src'
+        }
+    }
+
+    test {
+        java {
+            srcDir 'test'
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'lib/prod', include: ['*.jar'])
+    testCompile fileTree(dir: 'lib/test', include: ['*.jar'])
+}
+
+mainClassName = 'Yose'
