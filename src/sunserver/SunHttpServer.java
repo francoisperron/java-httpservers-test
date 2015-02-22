@@ -2,10 +2,10 @@ package sunserver;
 
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpServer;
+import yose.http.Endpoint;
 import yose.http.HttpRequest;
 import yose.http.HttpResponse;
 import yose.http.Server;
-import yose.http.routing.Router;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -13,9 +13,10 @@ import java.net.InetSocketAddress;
 public class SunHttpServer implements Server {
 
     private final HttpServer server;
-    private Router router;
+    private Endpoint endpoint;
 
-    public SunHttpServer(int port) throws IOException {
+    public SunHttpServer(int port, Endpoint endpoint) throws IOException {
+        this.endpoint = endpoint;
         int defaultMaximumNumberOfTcpConnectionQueued = 0;
         server = HttpServer.create(new InetSocketAddress(port), defaultMaximumNumberOfTcpConnectionQueued);
     }
@@ -32,14 +33,9 @@ public class SunHttpServer implements Server {
         server.stop(now);
     }
 
-    @Override
-    public void useRouter(Router router) {
-        this.router = router;
-    }
-
     private void handle(HttpExchange exchange) throws IOException {
         HttpRequest request = buildRequest(exchange);
-        HttpResponse response = router.handle(request);
+        HttpResponse response = endpoint.handle(request);
         sendResponse(exchange, response);
     }
 

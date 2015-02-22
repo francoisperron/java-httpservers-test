@@ -6,11 +6,15 @@ import yose.http.HttpResponse;
 
 import java.util.Map;
 
-public class Router {
+public class Router implements Endpoint {
 
     private Map<Route, Endpoint> routes;
 
-    public Router(Map<Route, Endpoint> routes) {
+    public static Endpoint routing(Map<Route, Endpoint> routes) {
+        return new Router(routes);
+    }
+
+    private Router(Map<Route, Endpoint> routes) {
         this.routes = routes;
     }
 

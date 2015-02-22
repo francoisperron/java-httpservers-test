@@ -8,7 +8,6 @@ import yose.http.Endpoint;
 import yose.http.HttpResponse;
 import yose.http.Server;
 import yose.http.routing.Route;
-import yose.http.routing.Router;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -16,6 +15,7 @@ import java.util.Map;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.IsEqual.equalTo;
+import static yose.http.routing.Router.routing;
 import static yose.testsupport.HttpGetRequest.get;
 
 public class GetWorks {
@@ -39,8 +39,7 @@ public class GetWorks {
 
     @Before
     public void startServer() throws Exception {
-        server = new SunHttpServer(8000);
-        server.useRouter(new Router(routes));
+        server = new SunHttpServer(8000, routing(routes));
         server.start();
     }
 
