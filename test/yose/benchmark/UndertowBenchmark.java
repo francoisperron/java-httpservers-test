@@ -1,6 +1,6 @@
 package yose.benchmark;
 
-import http.simple.SimpleServer;
+import http.undertow.UndertowServer;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -13,14 +13,14 @@ import static org.hamcrest.core.IsEqual.equalTo;
 import static yose.YoseRoutes.yoseRoutes;
 import static yose.http.routing.Router.routing;
 
-public class SimpleBenchmark {
+public class UndertowBenchmark {
 
     private Server server;
     private Benchmark benchmark;
 
     @Before
     public void startYose() throws Exception {
-        server = new SimpleServer(8080, routing(yoseRoutes()));
+        server = new UndertowServer(8080, routing(yoseRoutes()));
         server.start();
         benchmark = new Benchmark();
     }
@@ -36,6 +36,7 @@ public class SimpleBenchmark {
         BenchmarkResult result = benchmark.parallelGet(nThreads);
 
         assertThat(result.successfullGets, equalTo(nThreads));
+
     }
 
     @Test
