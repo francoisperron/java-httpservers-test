@@ -1,4 +1,4 @@
-package sunserver;
+package http.sunserver;
 
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpServer;
@@ -19,10 +19,14 @@ public class SunHttpServer implements Server {
     private final HttpServer server;
     private Endpoint endpoint;
 
-    public SunHttpServer(int port, Endpoint endpoint) throws IOException {
-        this.endpoint = endpoint;
-        int defaultMaximumNumberOfTcpConnectionQueued = 0;
-        server = HttpServer.create(new InetSocketAddress(port), defaultMaximumNumberOfTcpConnectionQueued);
+    public SunHttpServer(int port, Endpoint endpoint) {
+        try {
+            this.endpoint = endpoint;
+            int defaultMaximumNumberOfTcpConnectionQueued = 0;
+            server = HttpServer.create(new InetSocketAddress(port), defaultMaximumNumberOfTcpConnectionQueued);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override

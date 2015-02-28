@@ -1,9 +1,7 @@
 package yose;
 
-import sunserver.SunHttpServer;
+import http.simple.SimpleServer;
 import yose.http.Server;
-
-import java.io.IOException;
 
 import static yose.YoseRoutes.yoseRoutes;
 import static yose.http.routing.Router.routing;
@@ -18,12 +16,8 @@ public class Yose {
     }
 
     public void start() {
-        try {
-            server = new SunHttpServer(port, routing(yoseRoutes()));
-            server.start();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        server = new SimpleServer(port, routing(yoseRoutes()));
+        server.start();
     }
 
     public void stop() {
@@ -32,5 +26,6 @@ public class Yose {
 
     public static void main(String[] args) {
         new Yose(8080).start();
+        System.out.println(":o)");
     }
 }

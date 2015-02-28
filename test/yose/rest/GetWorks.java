@@ -1,8 +1,9 @@
-package yose;
+package yose.rest;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import yose.Yose;
 import yose.http.HttpResponse;
 
 import java.io.IOException;

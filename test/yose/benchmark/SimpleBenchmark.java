@@ -1,9 +1,11 @@
-package yose;
+package yose.benchmark;
 
+import http.simple.SimpleServer;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import yose.http.HttpResponse;
+import yose.http.Server;
 
 import java.io.IOException;
 import java.util.concurrent.ExecutorService;
@@ -12,23 +14,25 @@ import java.util.concurrent.TimeUnit;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.IsEqual.equalTo;
+import static yose.YoseRoutes.yoseRoutes;
+import static yose.http.routing.Router.routing;
 import static yose.testsupport.HttpGetRequest.get;
 
-public class ParallelRequestHandlingTest {
+public class SimpleBenchmark {
 
-    private Yose yose;
+    private Server server;
     private static int counter;
 
     @Before
     public void startYose() throws Exception {
-        yose = new Yose(8080);
-        yose.start();
+        server = new SimpleServer(8080, routing(yoseRoutes()));
+        server.start();
         counter = 0;
     }
 
     @After
     public void stopYose() throws IOException {
-        yose.stop();
+        server.stop();
     }
 
     @Test
@@ -37,7 +41,6 @@ public class ParallelRequestHandlingTest {
         parallelGet(nThreads);
 
         assertThat(counter, equalTo(nThreads));
-
     }
 
     @Test

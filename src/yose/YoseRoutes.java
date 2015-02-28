@@ -16,7 +16,7 @@ public class YoseRoutes extends HashMap<Route, Endpoint>{
     }
 
     public YoseRoutes() {
-        put(route("GET",  "/"), (request) -> spin200msAndAnwer());
+        put(route("GET",  "/"), (request) -> spin200msAndAnswer());
         put(route("POST", "/"), (request) -> postResponse(request));
 
         put(route("GET", "/another"), (request) -> getResponse());
@@ -35,7 +35,7 @@ public class YoseRoutes extends HashMap<Route, Endpoint>{
         return response;
     }
 
-    private HttpResponse spin200msAndAnwer() {
+    public static HttpResponse spin200msAndAnswer() {
         long startTime = System.currentTimeMillis();
         while(System.currentTimeMillis() - startTime < 200){}
 
