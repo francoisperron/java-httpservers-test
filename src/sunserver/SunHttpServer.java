@@ -11,6 +11,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.InetSocketAddress;
+import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 
 public class SunHttpServer implements Server {
@@ -26,6 +27,7 @@ public class SunHttpServer implements Server {
 
     @Override
     public void start() {
+        server.setExecutor(Executors.newFixedThreadPool(100));
         server.createContext("/", exchange -> handle(exchange));
         server.start();
     }
