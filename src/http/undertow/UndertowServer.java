@@ -22,12 +22,12 @@ public class UndertowServer implements Server {
     @Override
     public void start() {
         server = Undertow.builder()
-                .setSocketOption(Options.BACKLOG, 10000) // to stop dropping connections
-                .addHttpListener(port, "localhost")
-                .setHandler(exchange -> handleRequest(exchange))
 //                .setBufferSize(1024 * 16) // no performance gain with these
 //                .setIoThreads(100)
 //                .setWorkerThreads(100)
+                .setSocketOption(Options.BACKLOG, 10000) // to stop dropping connections
+                .addHttpListener(port, "localhost")
+                .setHandler(exchange -> handleRequest(exchange))
                 .build();
         server.start();
     }

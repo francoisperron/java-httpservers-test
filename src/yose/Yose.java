@@ -1,6 +1,6 @@
 package yose;
 
-import http.simple.SimpleServer;
+import http.jettyservlet.JettyServletServer;
 import yose.http.Server;
 
 import static yose.YoseRoutes.yoseRoutes;
@@ -16,7 +16,9 @@ public class Yose {
     }
 
     public void start() {
-        server = new SimpleServer(port, routing(yoseRoutes()));
+        server = new JettyServletServer(port, routing(yoseRoutes()));
+//        server = new SimpleServer(port, routing(yoseRoutes()));
+//        server = new UndertowServer(port, routing(yoseRoutes()));
         server.start();
     }
 
