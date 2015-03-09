@@ -1,32 +1,34 @@
-package yose.benchmark;
+package application.benchmark;
 
-import http.undertow.UndertowServer;
+import application.testsupport.Benchmark;
+import application.testsupport.BenchmarkResult;
+import http.simple.SimpleServer;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import yose.http.Server;
+import application.http.Server;
 
 import java.io.IOException;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.IsEqual.equalTo;
-import static yose.YoseRoutes.yoseRoutes;
-import static yose.http.routing.Router.routing;
+import static application.ApplicationRoutes.applicationRoutes;
+import static application.http.routing.Router.routing;
 
-public class UndertowBenchmark {
+public class SimpleBenchmark {
 
     private Server server;
     private Benchmark benchmark;
 
     @Before
-    public void startYose() throws Exception {
-        server = new UndertowServer(8080, routing(yoseRoutes()));
+    public void start() throws Exception {
+        server = new SimpleServer(8080, routing(applicationRoutes()));
         server.start();
         benchmark = new Benchmark();
     }
 
     @After
-    public void stopYose() throws IOException {
+    public void stop() throws IOException {
         server.stop();
     }
 
@@ -35,8 +37,7 @@ public class UndertowBenchmark {
         int nThreads = 10;
         BenchmarkResult result = benchmark.parallelGet(nThreads);
 
-        assertThat(result.successfullGets, equalTo(nThreads));
-
+        assertThat(result.successfulGets, equalTo(nThreads));
     }
 
     @Test
@@ -44,6 +45,6 @@ public class UndertowBenchmark {
         int nThreads = 100;
         BenchmarkResult result = benchmark.parallelGet(nThreads);
 
-        assertThat(result.successfullGets, equalTo(nThreads));
+        assertThat(result.successfulGets, equalTo(nThreads));
     }
 }

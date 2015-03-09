@@ -1,4 +1,4 @@
-package yose.http;
+package application.http;
 
 public class HttpRequest {
     public String method;

@@ -1,8 +1,8 @@
-package yose.http.routing;
+package application.http.routing;
 
-import yose.http.Endpoint;
-import yose.http.HttpRequest;
-import yose.http.HttpResponse;
+import application.http.Endpoint;
+import application.http.HttpRequest;
+import application.http.HttpResponse;
 
 import java.util.Map;
 

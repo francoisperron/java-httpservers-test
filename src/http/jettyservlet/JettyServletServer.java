@@ -1,16 +1,18 @@
 package http.jettyservlet;
 
+import application.http.Endpoint;
+import application.http.HttpRequest;
+import application.http.HttpResponse;
+import application.http.Server;
 import org.eclipse.jetty.server.Request;
 import org.eclipse.jetty.server.handler.AbstractHandler;
-import yose.http.Endpoint;
-import yose.http.HttpRequest;
-import yose.http.HttpResponse;
-import yose.http.Server;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.util.stream.Collectors;
 
 public class JettyServletServer implements Server {
 
@@ -38,7 +40,17 @@ public class JettyServletServer implements Server {
         request.query = httpServletRequest.getQueryString();
         request.path = httpServletRequest.getRequestURI();
         request.method = httpServletRequest.getMethod();
+        request.body = readRequestBody(httpServletRequest);
         return request;
+    }
+
+    private static String readRequestBody(HttpServletRequest httpServletRequest) {
+        try {
+            BufferedReader br = httpServletRequest.getReader();
+            return br.ready() ? br.lines().collect(Collectors.joining("\n")) : "";
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private void sendResponse(HttpServletResponse httpServletResponse, HttpResponse response) throws IOException {

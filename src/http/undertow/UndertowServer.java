@@ -1,12 +1,17 @@
 package http.undertow;
 
+import application.http.Endpoint;
+import application.http.HttpRequest;
+import application.http.HttpResponse;
+import application.http.Server;
 import io.undertow.Undertow;
 import io.undertow.server.HttpServerExchange;
 import org.xnio.Options;
-import yose.http.Endpoint;
-import yose.http.HttpRequest;
-import yose.http.HttpResponse;
-import yose.http.Server;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.stream.Collectors;
 
 public class UndertowServer implements Server {
 
@@ -42,7 +47,18 @@ public class UndertowServer implements Server {
         HttpRequest httpRequest = new HttpRequest();
         httpRequest.method = exchange.getRequestMethod().toString();
         httpRequest.path = exchange.getRequestURI();
+        httpRequest.body = readRequestBody(exchange);
         return httpRequest;
+    }
+
+    private static String readRequestBody(HttpServerExchange exchange) {
+        exchange.startBlocking();
+        try {
+            BufferedReader br = new BufferedReader(new InputStreamReader((exchange.getInputStream())));
+            return br.ready() ? br.lines().collect(Collectors.joining("\n")) : "";
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private void sendResponse(HttpServerExchange exchange, HttpResponse response) {

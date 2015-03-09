@@ -2,10 +2,10 @@ package http.sunserver;
 
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpServer;
-import yose.http.Endpoint;
-import yose.http.HttpRequest;
-import yose.http.HttpResponse;
-import yose.http.Server;
+import application.http.Endpoint;
+import application.http.HttpRequest;
+import application.http.HttpResponse;
+import application.http.Server;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -51,8 +51,8 @@ public class SunHttpServer implements Server {
     private HttpRequest buildRequest(HttpExchange exchange) {
         HttpRequest request = new HttpRequest();
         request.method = exchange.getRequestMethod();
-        request.query = exchange.getRequestURI().getRawQuery();
         request.path = exchange.getRequestURI().getPath();
+        request.query = exchange.getRequestURI().getRawQuery();
         request.body = readRequestBody(exchange);
         return request;
     }

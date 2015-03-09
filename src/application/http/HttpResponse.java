@@ -1,4 +1,4 @@
-package yose.http;
+package application.http;
 
 import java.util.HashMap;
 import java.util.Map;

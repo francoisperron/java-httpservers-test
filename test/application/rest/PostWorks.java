@@ -1,30 +1,30 @@
-package yose.rest;
+package application.rest;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import yose.Yose;
-import yose.http.HttpResponse;
+import application.HttpApplication;
+import application.http.HttpResponse;
 
 import java.io.IOException;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.IsEqual.equalTo;
-import static yose.testsupport.HttpPostRequest.post;
+import static application.testsupport.HttpPostRequest.post;
 
 public class PostWorks {
 
-    private Yose yose;
+    private HttpApplication application;
 
     @Before
-    public void startYose() throws Exception {
-        yose = new Yose(8000);
-        yose.start();
+    public void start() throws Exception {
+        application = new HttpApplication(8000);
+        application.start();
     }
 
     @After
-    public void stopYose() throws IOException {
-        yose.stop();
+    public void stop() throws IOException {
+        application.stop();
     }
 
     @Test

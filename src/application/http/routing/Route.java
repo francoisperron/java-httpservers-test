@@ -1,6 +1,6 @@
-package yose.http.routing;
+package application.http.routing;
 
-import yose.http.HttpRequest;
+import application.http.HttpRequest;
 
 public class Route {
 

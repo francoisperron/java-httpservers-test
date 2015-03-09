@@ -1,5 +1,9 @@
 package http.simple;
 
+import application.http.Endpoint;
+import application.http.HttpRequest;
+import application.http.HttpResponse;
+import application.http.Server;
 import org.simpleframework.http.Request;
 import org.simpleframework.http.Response;
 import org.simpleframework.http.Status;
@@ -7,14 +11,13 @@ import org.simpleframework.http.core.ContainerSocketProcessor;
 import org.simpleframework.transport.SocketProcessor;
 import org.simpleframework.transport.connect.Connection;
 import org.simpleframework.transport.connect.SocketConnection;
-import yose.http.Endpoint;
-import yose.http.HttpRequest;
-import yose.http.HttpResponse;
-import yose.http.Server;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.net.InetSocketAddress;
+import java.util.stream.Collectors;
 
 public class SimpleServer implements Server {
 
@@ -58,7 +61,17 @@ public class SimpleServer implements Server {
         HttpRequest httpRequest = new HttpRequest();
         httpRequest.method = simpleRequest.getMethod();
         httpRequest.path = simpleRequest.getPath().toString();
+        httpRequest.body = readRequestBody(simpleRequest);
         return httpRequest;
+    }
+
+    private static String readRequestBody(Request simpleRequest) {
+        try {
+            BufferedReader br = new BufferedReader(new InputStreamReader((simpleRequest.getInputStream())));
+            return br.ready() ? br.lines().collect(Collectors.joining("\n")) : "";
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private void sendResponse(Response simpleResponse, HttpResponse response) {
@@ -70,6 +83,5 @@ public class SimpleServer implements Server {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
     }
 }

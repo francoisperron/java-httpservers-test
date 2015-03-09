@@ -1,38 +1,24 @@
-package yose;
+package application;
 
-import yose.http.Endpoint;
-import yose.http.HttpRequest;
-import yose.http.HttpResponse;
-import yose.http.routing.Route;
+import application.http.Endpoint;
+import application.http.HttpRequest;
+import application.http.HttpResponse;
+import application.http.routing.Route;
 
 import java.util.HashMap;
 
-import static yose.http.routing.Route.route;
+import static application.http.routing.Route.route;
 
-public class YoseRoutes extends HashMap<Route, Endpoint>{
+public class ApplicationRoutes extends HashMap<Route, Endpoint>{
 
-    public static HashMap<Route, Endpoint> yoseRoutes(){
-        return new YoseRoutes();
+    public static HashMap<Route, Endpoint> applicationRoutes(){
+        return new ApplicationRoutes();
     }
 
-    public YoseRoutes() {
+    public ApplicationRoutes() {
         put(route("GET",  "/"), (request) -> spin200msAndAnswer());
         put(route("POST", "/"), (request) -> postResponse(request));
-
         put(route("GET", "/another"), (request) -> getResponse());
-    }
-
-    private HttpResponse wait200msAndAnwer() {
-        try {
-            Thread.sleep(200);
-
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        HttpResponse response = new HttpResponse();
-        response.code = 200;
-        response.body = "Hello";
-        return response;
     }
 
     public static HttpResponse spin200msAndAnswer() {
