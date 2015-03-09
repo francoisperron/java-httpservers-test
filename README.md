@@ -5,7 +5,7 @@ Exploring this idea, we found it pretty simple to hide behind interfaces which h
 
 The [Server], [Endpoint], [HttpRequest], and [HttpResponse] emerge as interfaces we like to use when dealing with http communication. They are all in the same http package inside the core of the application.
 
-We tested these implementations: [built-in java http server], [simple], [servlet] and [jetty], and [undertow].
+We tested these implementations: [built-in java http server], [simple], [servlet] and [jetty] duo, and [undertow].
 
 These implementations are outside the core of the application, in the http adapter package. As you can see, we choose not to use the routing of any of these libraries.
 
