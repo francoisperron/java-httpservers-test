@@ -61,8 +61,13 @@ public class SimpleServer implements Server {
         HttpRequest httpRequest = new HttpRequest();
         httpRequest.method = simpleRequest.getMethod();
         httpRequest.path = simpleRequest.getPath().toString();
+        httpRequest.query = readQuery(simpleRequest);
         httpRequest.body = readRequestBody(simpleRequest);
         return httpRequest;
+    }
+
+    private String readQuery(Request simpleRequest) {
+        return simpleRequest.getQuery().isEmpty() ? "" : simpleRequest.getQuery().toString();
     }
 
     private static String readRequestBody(Request simpleRequest) {

@@ -47,6 +47,7 @@ public class UndertowServer implements Server {
         HttpRequest httpRequest = new HttpRequest();
         httpRequest.method = exchange.getRequestMethod().toString();
         httpRequest.path = exchange.getRequestURI();
+        httpRequest.query = exchange.getQueryString();
         httpRequest.body = readRequestBody(exchange);
         return httpRequest;
     }

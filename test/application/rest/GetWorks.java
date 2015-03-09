@@ -1,29 +1,27 @@
 package application.rest;
 
+import application.HttpApplication;
+import application.http.HttpResponse;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import application.HttpApplication;
-import application.http.HttpResponse;
 
-import java.io.IOException;
-
+import static application.testsupport.HttpGetRequest.get;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.IsEqual.equalTo;
-import static application.testsupport.HttpGetRequest.get;
 
 public class GetWorks {
 
     private HttpApplication application;
 
     @Before
-    public void start() throws Exception {
+    public void start() {
         application = new HttpApplication(8000);
         application.start();
     }
 
     @After
-    public void stop() throws IOException {
+    public void stop() {
         application.stop();
     }
 
@@ -39,6 +37,13 @@ public class GetWorks {
         HttpResponse response = get("http://localhost:8000/");
 
         assertThat(response.body, equalTo("Hello"));
+    }
+
+    @Test
+    public void returnsQueryParamGreetingsAsBody() {
+        HttpResponse response = get("http://localhost:8000?greetings=Bonjour");
+
+        assertThat(response.body, equalTo("Bonjour"));
     }
 
     @Test
