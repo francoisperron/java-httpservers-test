@@ -21,7 +21,7 @@ public class ApplicationRoutes extends HashMap<Route, Endpoint>{
         put(route("GET", "/another"), (request) -> getResponse());
     }
 
-    public static HttpResponse spin200msAndAnswer(HttpRequest request) {
+    private HttpResponse spin200msAndAnswer(HttpRequest request) {
         long startTime = System.currentTimeMillis();
         while(System.currentTimeMillis() - startTime < 200){}
 
@@ -31,7 +31,7 @@ public class ApplicationRoutes extends HashMap<Route, Endpoint>{
         return response;
     }
 
-    private static String helloOrGreetings(HttpRequest request) {
+    private String helloOrGreetings(HttpRequest request) {
         if (request.query == null || request.query.isEmpty())
             return "Hello";
         else
