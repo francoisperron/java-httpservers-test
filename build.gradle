@@ -19,8 +19,8 @@ sourceSets {
 }
 
 dependencies {
-    compile fileTree(dir: 'lib/prod', include: ['*.jar'])
-    testCompile fileTree(dir: 'lib/test', include: ['*.jar'])
+    compile fileTree('lib/prod').include('**/*.jar')
+    testCompile fileTree('lib/test').include('**/*.jar')
 }
 
 mainClassName = 'HttpApplication'
