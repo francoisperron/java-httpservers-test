@@ -2,6 +2,9 @@ package application;
 
 import application.http.Server;
 import http.sunserver.SunHttpServer;
+import http.simple.SimpleServer;
+import http.jettyservlet.JettyServletServer;
+import http.undertow.UndertowServer;
 
 import static application.ApplicationRoutes.applicationRoutes;
 import static application.http.routing.Router.routing;
@@ -16,10 +19,10 @@ public class HttpApplication {
     }
 
     public void start() {
-        server = new SunHttpServer(port, routing(applicationRoutes()));
+//        server = new SunHttpServer(port, routing(applicationRoutes()));
 //        server = new SimpleServer(port, routing(applicationRoutes()));
 //        server = new JettyServletServer(port, routing(applicationRoutes()));
-//        server = new UndertowServer(port, routing(applicationRoutes()));
+        server = new UndertowServer(port, routing(applicationRoutes()));
         server.start();
     }
 

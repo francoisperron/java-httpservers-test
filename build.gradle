@@ -23,4 +23,4 @@ dependencies {
     testCompile fileTree('lib/test').include('**/*.jar')
 }
 
-mainClassName = 'HttpApplication'
+mainClassName = 'application.HttpApplication'
